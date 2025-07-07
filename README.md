@@ -1,5 +1,7 @@
 # Google Analytics Dashboard
 
+:warning: THIS REPOSITORY IS FEASIBILITY STUDY PURPOSE MADE BY CLAUDE CODE FOR PRIVATE DEVELOPMENT :warning:
+
 A React-based dashboard for visualizing Google Analytics data with interactive charts and metrics.
 
 ## Features
