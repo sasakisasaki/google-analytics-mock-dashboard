@@ -31,3 +31,13 @@ export interface TrafficSource {
   sessions: number;
   percentage: number;
 }
+
+export interface RealTimeData {
+  activeUsers: number;
+  newUsersLastHour: number;
+  pageViewsLastHour: number;
+  topPages: Array<{
+    page: string;
+    activeUsers: number;
+  }>;
+}

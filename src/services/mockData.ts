@@ -1,4 +1,4 @@
-import { AnalyticsData, PageViewData, UserDemographics, DeviceData, TrafficSource } from '../types/analytics';
+import { AnalyticsData, PageViewData, UserDemographics, DeviceData, TrafficSource, RealTimeData } from '../types/analytics';
 
 export const generateMockAnalyticsData = (days: number): AnalyticsData[] => {
   const data: AnalyticsData[] = [];
@@ -51,3 +51,20 @@ export const mockTrafficSources: TrafficSource[] = [
   { source: 'Referral', users: 1234, sessions: 1543, percentage: 10.4 },
   { source: 'Email', users: 543, sessions: 654, percentage: 4.5 }
 ];
+
+export const generateRealTimeData = (): RealTimeData => {
+  const baseActiveUsers = Math.floor(Math.random() * 50) + 20;
+  
+  return {
+    activeUsers: baseActiveUsers + Math.floor(Math.random() * 10),
+    newUsersLastHour: Math.floor(Math.random() * 20) + 5,
+    pageViewsLastHour: Math.floor(Math.random() * 200) + 50,
+    topPages: [
+      { page: '/home', activeUsers: Math.floor(baseActiveUsers * 0.3) },
+      { page: '/products', activeUsers: Math.floor(baseActiveUsers * 0.25) },
+      { page: '/about', activeUsers: Math.floor(baseActiveUsers * 0.15) },
+      { page: '/blog', activeUsers: Math.floor(baseActiveUsers * 0.2) },
+      { page: '/contact', activeUsers: Math.floor(baseActiveUsers * 0.1) }
+    ]
+  };
+};

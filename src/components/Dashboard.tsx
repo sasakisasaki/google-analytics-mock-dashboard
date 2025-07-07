@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { AnalyticsData, PageViewData, UserDemographics, DeviceData, TrafficSource } from '../types/analytics';
-import { generateMockAnalyticsData, mockPageViewData, mockUserDemographics, mockDeviceData, mockTrafficSources } from '../services/mockData';
+import { AnalyticsData, PageViewData, UserDemographics, DeviceData, TrafficSource, RealTimeData } from '../types/analytics';
+import { generateMockAnalyticsData, mockPageViewData, mockUserDemographics, mockDeviceData, mockTrafficSources, generateRealTimeData } from '../services/mockData';
 import './Dashboard.css';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82CA9D'];
@@ -9,10 +9,19 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82CA9D'
 const Dashboard: React.FC = () => {
   const [analyticsData, setAnalyticsData] = useState<AnalyticsData[]>([]);
   const [timeRange, setTimeRange] = useState<number>(7);
+  const [realTimeData, setRealTimeData] = useState<RealTimeData>(generateRealTimeData());
 
   useEffect(() => {
     setAnalyticsData(generateMockAnalyticsData(timeRange));
   }, [timeRange]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRealTimeData(generateRealTimeData());
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="dashboard">
@@ -24,6 +33,29 @@ const Dashboard: React.FC = () => {
           <button className={timeRange === 90 ? 'active' : ''} onClick={() => setTimeRange(90)}>90 Days</button>
         </div>
       </header>
+
+      <div className="real-time-section">
+        <div className="real-time-card">
+          <div className="real-time-header">
+            <h2>Real-Time Visitors</h2>
+            <span className="live-indicator">LIVE</span>
+          </div>
+          <div className="active-users-display">
+            <div className="active-users-number">{realTimeData.activeUsers}</div>
+            <div className="active-users-label">Active Users Now</div>
+          </div>
+          <div className="real-time-stats">
+            <div className="real-time-stat">
+              <span className="stat-value">{realTimeData.newUsersLastHour}</span>
+              <span className="stat-label">New Users (Last Hour)</span>
+            </div>
+            <div className="real-time-stat">
+              <span className="stat-value">{realTimeData.pageViewsLastHour}</span>
+              <span className="stat-label">Page Views (Last Hour)</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div className="metrics-summary">
         <div className="metric-card">
